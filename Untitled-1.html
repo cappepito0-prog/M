@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FacebookClone</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            background-color: #f0f2f5;
+        }
+
+        /* HEADER */
+        header {
+            background-color: #fff;
+            border-bottom: 1px solid #ddd;
+            padding: 8px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            animation: slideDown 0.5s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #00ff40;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: fadeIn 0.8s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 250px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            background-color: #f0f2f5;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .search-bar input:focus {
+            background-color: #fff;
+            border-color: #000000;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .header-icons i {
+            font-size: 20px;
+            color: #65676b;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .header-icons i:hover {
+            color: #000000;
+            transform: scale(1.2);
+        }
+
+        /* CONTAINER */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 280px 1fr 320px;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            position: sticky;
+            top: 64px;
+            height: fit-content;
+        }
+
+        .sidebar-item {
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: #65676b;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            animation: slideInLeft 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .sidebar-item:nth-child(1) { animation-delay: 0.1s; }
+        .sidebar-item:nth-child(2) { animation-delay: 0.2s; }
+        .sidebar-item:nth-child(3) { animation-delay: 0.3s; }
+        .sidebar-item:nth-child(4) { animation-delay: 0.4s; }
+        .sidebar-item:nth-child(5) { animation-delay: 0.5s; }
+        .sidebar-item:nth-child(6) { animation-delay: 0.6s; }
+
+        .sidebar-item:hover {
+            background-color: #e7f3ff;
+            transform: translateX(10px);
+        }
+
+        .sidebar-item i {
+            font-size: 20px;
+            color: #808080;
+            width: 24px;
+        }
+
+        /* MAIN FEED */
+        .feed {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* CREATE POST */
+        .create-post {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            animation: slideInUp 0.6s ease;
+            transition: all 0.3s ease;
+        }
+
+        @keyframes slideInUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .create-post:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-5px);
+        }
+
+        .create-post-header {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1877f2 0%, #0a66c2 100%);
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .avatar:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 4px 12px rgba(24, 119, 242, 0.4);
+        }
+
+        .post-input {
+            flex: 1;
+            background-color: #f0f2f5;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 16px;
+            font-size: 14px;
+            cursor: pointer;
+            color: #65676b;
+            transition: all 0.3s ease;
+        }
+
+        .post-input:hover,
+        .post-input:focus {
+            background-color: #fff;
+            box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.2);
+        }
+
+        .post-actions {
+            display: flex;
+            justify-content: space-around;
+            padding-top: 10px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #65676b;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            background-color: #f0f2f5;
+            transform: scale(1.05);
+        }
+
+        .action-btn i {
+            font-size: 18px;
+            transition: transform 0.3s ease;
+        }
+
+        .action-btn:hover i {
+            transform: rotate(10deg);
+        }
+
+        /* POST */
+        .post {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            animation: slideInUp 0.6s ease forwards;
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+
+        .post:nth-child(2) { animation-delay: 0.2s; }
+        .post:nth-child(3) { animation-delay: 0.4s; }
+        .post:nth-child(4) { animation-delay: 0.6s; }
+
+        .post:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+            transform: translateY(-8px);
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 15px;
+            border-bottom: 1px solid #e5e7eb;
+            transition: background-color 0.3s ease;
+        }
+
+        .post:hover .post-header {
+            background-color: #f8f9fa;
+        }
+
+        .post-author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .post-author-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .post-author-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: #050505;
+        }
+
+        .post-time {
+            font-size: 12px;
+            color: #65676b;
+        }
+
+        .post-header i {
+            color: #65676b;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .post-header i:hover {
+            transform: rotate(90deg) scale(1.2);
+            color: #1877f2;
+        }
+
+        .post-content {
+            padding: 15px;
+            font-size: 14px;
+            color: #050505;
+            line-height: 1.5;
+        }
+
+        .post-image {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, hsl(190, 100%, 91%) 0%, #764ba2 100%);
+            transition: all 0.3s ease;            background-size: cover;
+            background-position: center;        }
+
+        .post:hover .post-image {
+            transform: scale(1.05);
+        }
+
+        .post-stats {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 15px;
+            font-size: 12px;
+            color: #65676b;
+            border-top: 1px solid #e5e7eb;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .post-actions-bottom {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+        }
+
+        .post-action {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            color: #65676b;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .post-action:hover {
+            background-color: #f0f2f5;
+            transform: scale(1.08);
+        }
+
+        .post-action i {
+            margin-right: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .post-action:hover i {
+            transform: scale(1.3);
+        }
+
+        /* RIGHT SIDEBAR */
+        .right-sidebar {
+            position: sticky;
+            top: 64px;
+            height: fit-content;
+        }
+
+        .widget {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            animation: slideInRight 0.6s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .widget:nth-child(1) { animation-delay: 0.3s; }
+        .widget:nth-child(2) { animation-delay: 0.5s; }
+
+        .widget:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transform: translateY(-5px);
+        }
+
+        .widget-title {
+            font-weight: 600;
+            font-size: 15px;
+            color: #050505;
+            margin-bottom: 12px;
+        }
+
+        .friend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            font-size: 13px;
+            color: #050505;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .friend-item:hover {
+            text-decoration: underline;
+            color: #1877f2;
+            transform: translateX(5px);
+        }
+
+        .friend-item:hover .friend-avatar {
+            transform: scale(1.15) rotate(-5deg);
+            box-shadow: 0 4px 8px rgba(24, 119, 242, 0.3);
+        }
+
+        .friend-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s ease;
+            background-size: cover;
+            background-position: center;
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr 320px;
+            }
+
+            .sidebar {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .right-sidebar {
+                display: none;
+            }
+
+            .header-content {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-home"></i>
+                ProyectoM
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="🔍 Buscar en Facebook">
+            </div>
+            <div class="header-icons">
+                <i class="fas fa-home"></i>
+                <i class="fas fa-users"></i>
+                <i class="fas fa-video"></i>
+                <i class="fas fa-bell"></i>
+                <i class="fas fa-envelope"></i>
+                <i class="fas fa-user-circle"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTAINER -->
+    <div class="container">
+        <!-- LEFT SIDEBAR -->
+        <aside class="sidebar">
+            <a href="Untitled-1.html" style="text-decoration: none;">
+            <div class="sidebar-item">
+                <i class="fas fa-home"></i>
+                <span>Inicio</span>
+            </div>
+            </a>
+            <a href="perfil.html" style="text-decoration: none;">
+            <div class="sidebar-item">
+                <i class="fas fa-user"></i>
+                <span>Mi Perfil</span>
+            </div>
+            </a>
+            <a href="Untitled-1r.html" style="text-decoration: none;">
+            <div class="sidebar-item">
+                <i class="fas fa-user-friends"></i>
+                <span>Amigos</span>
+            </div>
+            </a>
+            <div class="sidebar-item">
+                <i class="fas fa-images"></i>
+                <span>Fotos</span>
+            </div>
+            <div class="sidebar-item">
+                <i class="fas fa-calendar"></i>
+                <span>Eventos</span>
+            </div>
+            <div class="sidebar-item">
+                <i class="fas fa-bookmark"></i>
+                <span>Guardados</span>
+            </div>
+            <div class="sidebar-item">
+                <i class="fas fa-video"></i>
+                <span>Videos</span>
+            </div>
+        </aside>
+
+        <!-- MAIN FEED -->
+        <main class="feed">
+            <!-- CREATE POST -->
+            <div class="create-post">
+                <div class="create-post-header">
+                    <div class="avatar"></div>
+                    <input type="text" class="post-input" placeholder="¿En qué estás pensando?">
+                </div>
+                <div class="post-actions">
+                    <div class="action-btn">
+                        <i class="fas fa-video" style="color: #f3425f;"></i>
+                        <span>Video en vivo</span>
+                    </div>
+                    <div class="action-btn">
+                        <i class="fas fa-image" style="color: #31a24c;"></i>
+                        <span>Fotos/Video</span>
+                    </div>
+                    <div class="action-btn">
+                        <i class="fas fa-smile" style="color: #f5b544;"></i>
+                        <span>Sentimientos</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- POST 1 -->
+            <div class="post">
+                <div class="post-header">
+                    <div class="post-author">
+                        <div class="avatar"></div>
+                        <div class="post-author-info">
+                            <div class="post-author-name">Juan Pablo</div>
+                            <div class="post-time">Hace 1 horas</div>
+                        </div>
+                    </div>
+                    <i class="fas fa-ellipsis-h"></i>
+                </div>
+                <div class="post-content">
+                    ¡Qué increíble día! Disfrutando del hermoso clima con familia y amigos. 😊
+                </div>
+                <div class="post-image" style="background-image: url('https://marketing4ecommerce.net/wp-content/uploads/2024/05/imagen3-google-lana-e1715761922406.jpg');"></div>
+                <div class="post-stats">
+                    <span>👍 9999M me gusta</span>
+                    <span>455k comentarios · 100M compartidos</span>
+                </div>
+                <div class="post-actions-bottom">
+                    <div class="post-action">
+                        <i class="far fa-thumbs-up"></i>
+                        <span>Me gusta</span>
+                    </div>
+                    <div class="post-action">
+                        <i class="far fa-comment"></i>
+                        <span>Comentar</span>
+                    </div>
+                    <div class="post-action">
+                        <i class="far fa-share"></i>
+                        <span>Compartir</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- POST 2 -->
+            <div class="post">
+                <div class="post-header">
+                    <div class="post-author">
+                        <div class="avatar" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);"></div>
+                        <div class="post-author-info">
+                            <div class="post-author-name">María García</div>
+                            <div class="post-time">Hace 4 horas</div>
+                        </div>
+                    </div>
+                    <i class="fas fa-ellipsis-h"></i>
+                </div>
+                <div class="post-content">
+                    Acabo de terminar un proyecto importante en el trabajo. ¡Muy orgullosa del resultado! 🎉
+                </div>
+                <div class="post-image" style="background-image: url('https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=300&fit=crop');"></div>
+                <div class="post-stats">
+                    <span>👍 567 me gusta</span>
+                    <span>89 comentarios · 34 compartidos</span>
+                </div>
+                <div class="post-actions-bottom">
+                    <div class="post-action">
+                        <i class="far fa-thumbs-up"></i>
+                        <span>Me gusta</span>
+                    </div>
+                    <div class="post-action">
+                        <i class="far fa-comment"></i>
+                        <span>Comentar</span>
+                    </div>
+                    <div class="post-action">
+                        <i class="far fa-share"></i>
+                        <span>Compartir</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- POST 3 -->
+            <div class="post">
+                <div class="post-header">
+                    <div class="post-author">
+                        <div class="avatar" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);"></div>
+                        <div class="post-author-info">
+                            <div class="post-author-name">Carlos López</div>
+                            <div class="post-time">Hace 6 horas</div>
+                        </div>
+                    </div>
+                    <i class="fas fa-ellipsis-h"></i>
+                </div>
+                <div class="post-content">
+                    Viajando por nuevos lugares y descubriendo culturas fascinantes. El mundo es más hermoso cuando lo compartes con otros. ✈️
+                </div>
+                <div class="post-image" style="background-image: url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=500&h=300&fit=crop');"></div>
+                <div class="post-stats">
+                    <span>👍 892 me gusta</span>
+                    <span>156 comentarios · 78 compartidos</span>
+                </div>
+                <div class="post-actions-bottom">
+                    <div class="post-action">
+                        <i class="far fa-thumbs-up"></i>
+                        <span>Me gusta</span>
+                    </div>
+                    <div class="post-action">
+                        <i class="far fa-comment"></i>
+                        <span>Comentar</span>
+                    </div>
+                    <div class="post-action">
+                        <i class="far fa-share"></i>
+                        <span>Compartir</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- RIGHT SIDEBAR -->
+        <aside class="right-sidebar">
+            <!-- CONTACTS -->
+            <div class="widget">
+                <div class="widget-title">
+                    <i class="fas fa-users"></i> Amigos en línea
+                </div>
+                <div class="friend-item">
+                    <div class="friend-avatar" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+                    <span>Ana Martínez</span>
+                </div>
+                <div class="friend-item">
+                    <div class="friend-avatar" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);"></div>
+                    <span>Sofia Ruiz</span>
+                </div>
+                <div class="friend-item">
+                    <div class="friend-avatar" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);"></div>
+                    <span>Laura Fernández</span>
+                </div>
+                <div class="friend-item">
+                    <div class="friend-avatar" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);"></div>
+                    <span>Diego Sánchez</span>
+                </div>
+                <div class="friend-item">
+                    <div class="friend-avatar" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);"></div>
+                    <span>Pablo González</span>
+                </div>
+            </div>
+
+            <!-- SUGGESTED -->
+            <div class="widget">
+                <div class="widget-title">
+                    <i class="fas fa-user-plus"></i> Sugerencias
+                </div>
+                <div class="friend-item">
+                    <div class="friend-avatar" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);"></div>
+                    <span>Emma López</span>
+                </div>
+                <div class="friend-item">
+                    <div class="friend-avatar" style="background: linear-gradient(135deg, #ff9a56 0%, #ff6a88 100%);"></div>
+                    <span>Roberto Díaz</span>
+                </div>
+            </div>
+        </aside>
+    </div>
+</body>
+</html>
