@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pseudoclases y Pseudoelementos en CSS3</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 1.6rem;
+      margin: 2rem;
+      background: #f8f9fa;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    /* Pseudoclases */
+    a {
+      color: #0066cc;
+      text-decoration: none;
+      padding: 0.3rem 0.6rem;
+    }
+
+    a:hover {
+      background: #0066cc;
+      color: white;
+      border-radius: 4px;
+    }
+
+    a:active {
+      background: #004080;
+    }
+
+    li:first-child {
+      font-weight: bold;
+      color: #28a745;
+    }
+
+    li:nth-child(odd) {
+      background: #e9ecef;
+    }
+
+    button {
+      padding: 0.8rem 1.5rem;
+      background: #dc3545;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      background: #6c757d;
+      cursor: not-allowed;
+    }
+
+    /* Pseudoelementos */
+    h2::before {
+      content: "★ ";
+      color: #ffc107;
+    }
+
+    p::first-letter {
+      font-size: 3rem;
+      color: #dc3545;
+      float: left;
+      margin-right: 0.2rem;
+    }
+
+    .cita::after {
+      content: " — Autor desconocido";
+      font-style: italic;
+      color: #6c757d;
+    }
+  </style>
+</head>
+<body>
+  <h1>Ejemplos de Pseudoclases y Pseudoelementos</h1>
+
+  <h2>Pseudoclases (actúan según estado o posición)</h2>
+  <p>Pasa el mouse sobre este <a href="#">enlace</a> → cambia color y fondo (:hover)</p>
+  <p>Lista con estilos especiales:</p>
+  <ul>
+    <li>Primer elemento en negrita (:first-child)</li>
+    <li>Segundo elemento</li>
+    <li>Tercer elemento con fondo gris (:nth-child(odd))</li>
+  </ul>
+  <button disabled>Botón desactivado (:disabled)</button>
+
+  <h2>Pseudoelementos (agregan contenido virtual)</h2>
+  <p>::first-letter hace que la primera letra sea grande.</p>
+  <p class="cita">Este texto tiene contenido agregado al final (::after).</p>
+</body>
+</html>
