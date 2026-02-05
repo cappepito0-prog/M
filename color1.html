@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ejemplo: Márgenes y Espaciado en CSS3</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 1.6rem; /* Base rem para accesibilidad */
+      margin: 0; /* Reset margen body */
+      padding: 0;
+      background: #f0f0f0;
+    }
+
+    .contenedor {
+      max-width: 800px;
+      margin: 2rem auto; /* Margen externo: 2rem arriba/abajo, centrado */
+      padding: 1.5rem; /* Espaciado interno: 1.5rem alrededor */
+      background: white;
+      border: 1px solid #ddd;
+      box-shadow: 0 0.2rem 0.4rem rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      margin-bottom: 1rem; /* Margen inferior para separar de párrafo */
+      padding: 0.5rem; /* Espaciado interno ligero */
+      background: #007bff;
+      color: white;
+    }
+
+    p {
+      line-height: 1.8; /* Espaciado entre líneas para legibilidad */
+      margin: 1rem 0; /* Margen vertical: 1rem arriba/abajo */
+      padding: 0.5rem; /* Espaciado interno */
+    }
+
+    .ejemplo-sin-espacio {
+      margin: 0;
+      padding: 0;
+      background: #ffc107;
+    }
+  </style>
+</head>
+<body>
+  <div class="contenedor">
+    <h1>Ejemplo con Márgenes y Espaciado</h1>
+    <p>Este párrafo tiene margen vertical (1rem) y line-height (1.8)
+	para mejor lectura. Observa cómo el padding en el contenedor crea
+	espacio interno.</p>
+    <p class="ejemplo-sin-espacio">Este sin margen/padding: Todo pegado,
+	menos legible.</p>
+  </div>
+</body>
+</html>
